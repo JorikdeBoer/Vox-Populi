@@ -36,3 +36,7 @@ https://www.learnhowtoprogram.com/javascript/asynchrony-and-apis-in-javascript/m
 https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript-button-handler
 https://code.tutsplus.com/tutorials/how-to-create-a-simple-web-based-chat-application--net-5931
 
+http://www.html.am/html-codes/textboxes/html-textbox.cfm
+http://www.mediacollege.com/internet/javascript/form/add-text.html
+
+

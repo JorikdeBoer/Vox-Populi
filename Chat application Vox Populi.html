@@ -8,15 +8,21 @@
 	    <meta charset="utf-8">
           
         <script> 
+        <!-- sluit webpagina af WORK IN PROGRESS -->    
         function closeWindow() {
             window.open('','_parent','');
             window.close();}      
-                    
+              
+         <!-- Stuur input text naar output scherm -->        
         function addtext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
             var newtext = localtime + " " + document.chatareas.inputtext.value;
                 document.chatareas.outputtext.value +=newtext;}    
+            
+         <!-- stuur input naar server WORK IN PROGRESS -->
+         <!-- Stuur input server naar output scherm WORK IN PROGRESS -->  
+                     
         </script>     
     </head>
 
@@ -25,7 +31,7 @@
     <div id="border">
         <div id="menu">
             <!-- Naam en motto app -->
-            <p class="welcome"> Vox Populi: the app of the people! <b></b></p>
+            <p class="welcome"> <b> Vox Populi: the app for the people! </b></p>
             <!-- Exit knop -->
             <input type="button" value="Close" onClick="closeWindow();" />  
             <div style="clear:both"></div>
@@ -38,6 +44,9 @@
             <textarea name="outputtext" cols="60" rows="10">
             Welcome to the Vox Populi chatbox!
             </textarea>
+            
+            <!-- Zorg dat output automatisch doorscrolt WORK IN PROGRESS -->
+            <!-- opmaak locatie buttons WORK IN PROGRESS -->
             
             <!-- Tekst vak gebruiker -->
             <textarea name="inputtext" cols="50" rows="3">

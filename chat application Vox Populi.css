@@ -3,7 +3,7 @@
 /* Tekst font, kleur, locatie & omlijning */
 body {
     font:18px arial;
-    color: rgb(255, 255, 255);
+    background-color: rgb(193,193,193);
     text-align:center;
     padding:35px; }
 
