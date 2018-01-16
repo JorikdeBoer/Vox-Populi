@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Titel -->
+        <title>	Vox Populi </title>
+        <!-- Link naar css style bestand -->
+        <link type="text/css" rel="stylesheet" href="Chat application Vox Populi.css" />
+	    <meta charset="utf-8">
+          
+        <script> 
+        function closeWindow() {
+            window.open('','_parent','');
+            window.close();}      
+                    
+        function addtext() {
+            var time = new Date();
+            var localtime = time.toLocaleTimeString();
+            var newtext = localtime + " " + document.chatareas.inputtext.value;
+                document.chatareas.outputtext.value +=newtext;}    
+        </script>     
+    </head>
+
+    <!-- Layout stuctuur -->
+    <!-- Omlijning chatbox -->
+    <div id="border">
+        <div id="menu">
+            <!-- Naam en motto app -->
+            <p class="welcome"> Vox Populi: the app of the people! <b></b></p>
+            <!-- Exit knop -->
+            <input type="button" value="Close" onClick="closeWindow();" />  
+            <div style="clear:both"></div>
+        </div>
+        
+        <!-- Knoppen voor de Chatbox -->
+        <form name="chatareas" action="">
+            
+             <!-- Chatbox zelf -->
+            <textarea name="outputtext" cols="60" rows="10">
+            Welcome to the Vox Populi chatbox!
+            </textarea>
+            
+            <!-- Tekst vak gebruiker -->
+            <textarea name="inputtext" cols="50" rows="3">
+            Type your message for the world!
+            </textarea>
+            <!-- Verstuur knop -->
+            <input name="submitmsg" type="button" onClick="addtext();" id="submitmsg" value="Send" />
+        </form>
+    </div>
+         
+   	<body>
+    <script> 
+    </script>   
+    </body>
+
+</html>

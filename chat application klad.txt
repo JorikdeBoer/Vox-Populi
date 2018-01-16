@@ -1,0 +1,38 @@
+Chat application
+
+OPDRACHT
+
+http GET request
+http POST request
+to back-end database
+
+string input "read & write"	action
+individual key			mykey
+message id			id (input)
+message id			id (output)
+input text			value
+
+TIP
+	
+API aanroepen in JavaScript
+call an api from javascript
+Postcode API
+
+LES CODECADEMY
+xhr (XML HTTP Request)
+put, post, get, delete
+host, header, body
+
+OPZET
+tekstpaneel
+knop "Send"
+knop "refresh"
+
+
+
+SITES
+https://www.codecademy.com/courses/javascript-beginner-en-EID4t/0/1?curriculum_id=5122e50456ef4d6c450008c1
+https://www.learnhowtoprogram.com/javascript/asynchrony-and-apis-in-javascript/making-api-calls-with-javascript
+https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript-button-handler
+https://code.tutsplus.com/tutorials/how-to-create-a-simple-web-based-chat-application--net-5931
+
