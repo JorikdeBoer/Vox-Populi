@@ -8,24 +8,56 @@
 	    <meta charset="utf-8">
           
         <script> 
+        <!-- belangrijke functies --> 
+            
         <!-- sluit webpagina af WORK IN PROGRESS -->    
         function closeWindow() {
             window.open('','_parent','');
             window.close();}      
               
-         <!-- Stuur input text naar output scherm -->        
+        <!-- Stuur input text naar output scherm -->        
         function addtext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
-            var newtext = localtime + " " + document.chatareas.inputtext.value;
-                document.chatareas.outputtext.value +=newtext;}    
+            var newtext = document.chatareas.username.value + " " + 
+                          localtime + " " + 
+                          document.chatareas.inputtext.value;
+            document.chatareas.outputtext.value +=newtext;}
             
-         <!-- stuur input naar server WORK IN PROGRESS -->
-         <!-- Stuur input server naar output scherm WORK IN PROGRESS -->  
-                     
+         <!-- stuur input naar server -->
+         function submitmessage(){
+            var mykey = document.chatareas.username.value;
+            var value = document.chatareas.inputtext.value;
+            var xhr = new XMLHttpRequest();  
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=write&mykey='+mykey+'&value='+value;
+            xhr.open('POST', url , true);
+            xhr.send();}
+         
+         <!-- Ontvang input van server & Stuur input server -->
+         <!-- naar output scherm WORK IN PROGRESS -->
+         function getmessage() {
+            var xhr = new XMLHttpRequest();
+            var id = 293;
+            var mykey = document.chatareas.username.value; 
+            var time = new Date();
+            var localtime = time.toLocaleTimeString();
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
+            xhr.open('GET', url , true);
+             
+            xhr.responseType = 'text';
+            xhr.onload = function () {
+            if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                          document.chatareas.outputtext.value += mykey + " " + 
+                          localtime + " " +  xhr.responseText;
+            }}
+            };
+            xhr.send();
+         }  
+               
         </script>     
     </head>
-
+    
     <!-- Layout stuctuur -->
     <!-- Omlijning chatbox -->
     <div id="border">
@@ -42,18 +74,29 @@
             
              <!-- Chatbox zelf -->
             <textarea name="outputtext" cols="60" rows="10">
-            Welcome to the Vox Populi chatbox!
-            </textarea>
+    Welcome to the Vox Populi chatbox!
+            </textarea> 
+            <br> 
+            <br>
             
             <!-- Zorg dat output automatisch doorscrolt WORK IN PROGRESS -->
             <!-- opmaak locatie buttons WORK IN PROGRESS -->
             
-            <!-- Tekst vak gebruiker -->
-            <textarea name="inputtext" cols="50" rows="3">
-            Type your message for the world!
+            <!-- Tekst vakken gebruiker -->
+            <!-- Username tekstvak -->
+                Username:
+            <input type="text" name="username" id="username">    
+            <br>
+            <br>
+            <!-- chat bericht user tekstvak -->
+            <textarea name= "inputtext" cols="50" rows="3">
+    Type your message for the world!
             </textarea>
+            
             <!-- Verstuur knop -->
-            <input name="submitmsg" type="button" onClick="addtext();" id="submitmsg" value="Send" />
+            <input name="sendmsg" type="button" onClick="addtext();" id="sendmsg" value="Send" />
+            <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="submit" />
+            <input name="getmsg" type="button" onClick="getmessage();" id="getmsg" value="Get text" />
         </form>
     </div>
          
