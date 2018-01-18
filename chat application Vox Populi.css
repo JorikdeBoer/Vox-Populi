@@ -17,6 +17,7 @@ input[type=button] {
    	background-color:rgb(255, 255, 255);
 	font-size:16px;
 	}
+
 /* Kleur, locatie & omlijning van "border" */
 #border {
     margin:0 auto;
@@ -45,11 +46,5 @@ scroll bar if too much content */
   
 /* Locatie welkomtekst */
 .welcome { float:left; }
-
-/* Locatie welkomtekst */
-.name { float:left; }
-
-/* Locatie exit button */
-.exit { float:right; }
-   
+  
 .msgln { margin:0 0 2px 0; }

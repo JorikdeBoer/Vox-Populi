@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
+        
         <!-- Titel -->
         <title>	Vox Populi </title>
         <!-- Link naar css style bestand -->
@@ -9,36 +10,45 @@
           
         <script> 
         <!-- belangrijke functies --> 
-            
-        <!-- sluit webpagina af WORK IN PROGRESS -->    
-        function closeWindow() {
-            window.open('','_parent','');
-            window.close();}      
-              
+                             
         <!-- Stuur input text naar output scherm -->        
         function addtext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
-            var newtext = document.chatareas.username.value + " " + 
-                          localtime + " " + 
-                          document.chatareas.inputtext.value;
+            var newtext = 
+            document.chatareas.username.value + " " + 
+            localtime + " " + 
+            document.chatareas.inputtext.value;
+            document.chatareas.outputtext.value +=newtext;}
+            
+        function addselftext() {
+            var time = new Date();
+            var localtime = time.toLocaleTimeString();
+            var newtext = 
+            document.chatareas.username.value + " " +
+            "Selftext only" + " " +
+            localtime + " " + 
+            document.chatareas.inputtext.value;
             document.chatareas.outputtext.value +=newtext;}
             
          <!-- stuur input naar server -->
          function submitmessage(){
-            var mykey = document.chatareas.username.value;
+            var username = document.chatareas.username.value;
+            var mykey = "voxpopuli";
             var value = document.chatareas.inputtext.value;
             var xhr = new XMLHttpRequest();  
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=write&mykey='+mykey+'&value='+value;
             xhr.open('POST', url , true);
-            xhr.send();}
+            xhr.send();
+            addtext();}
          
          <!-- Ontvang input van server & Stuur input server -->
          <!-- naar output scherm WORK IN PROGRESS -->
          function getmessage() {
             var xhr = new XMLHttpRequest();
-            var id = 293;
-            var mykey = document.chatareas.username.value; 
+            var id = 677;
+            var username = document.chatareas.username.value;
+            var mykey = "voxpopuli";
             var time = new Date();
             var localtime = time.toLocaleTimeString();
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
@@ -48,7 +58,7 @@
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-                          document.chatareas.outputtext.value += mykey + " " + 
+                          document.chatareas.outputtext.value += username + " " + 
                           localtime + " " +  xhr.responseText;
             }}
             };
@@ -64,8 +74,6 @@
         <div id="menu">
             <!-- Naam en motto app -->
             <p class="welcome"> <b> Vox Populi: the app for the people! </b></p>
-            <!-- Exit knop -->
-            <input type="button" value="Close" onClick="closeWindow();" />  
             <div style="clear:both"></div>
         </div>
         
@@ -94,14 +102,14 @@
             </textarea>
             
             <!-- Verstuur knop -->
-            <input name="sendmsg" type="button" onClick="addtext();" id="sendmsg" value="Send" />
-            <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="submit" />
+            <input name="sendmsg" type="button" onClick="addselftext();" id="sendmsg" value="Just post for yourself" />
+            <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="Send to the world" />
             <input name="getmsg" type="button" onClick="getmessage();" id="getmsg" value="Get text" />
         </form>
     </div>
          
-   	<body>
-    <script> 
+   	<body>      
+    <script>
     </script>   
     </body>
 
