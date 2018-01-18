@@ -15,7 +15,7 @@
         function addtext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
-            var newtext = 
+            var newtext = "  " +
             document.chatareas.username.value + " " + 
             localtime + " " + 
             document.chatareas.inputtext.value;
@@ -24,9 +24,9 @@
         function addselftext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
-            var newtext = 
+            var newtext = "  " +
             document.chatareas.username.value + " " +
-            "Selftext only" + " " +
+            "To Self" + " " +
             localtime + " " + 
             document.chatareas.inputtext.value;
             document.chatareas.outputtext.value +=newtext;}
@@ -39,14 +39,29 @@
             var xhr = new XMLHttpRequest();  
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=write&mykey='+mykey+'&value='+value;
             xhr.open('POST', url , true);
+            //addtext();
+            xhr.onload = function () {
+            if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) { 
+            document.chatareas.outputtext.value += "    " +    
+            "ID:" + " " + 
+            +  xhr.response + " ";   
+            // get message back from server with id number    
+            updatelastid(xhr.response);
+            }}    
+            };
             xhr.send();
-            addtext();}
-         
+            }   
+                     
+         function updatelastid(id){
+            getmessage(id);
+            }   
+            
          <!-- Ontvang input van server & Stuur input server -->
-         <!-- naar output scherm WORK IN PROGRESS -->
-         function getmessage() {
+         <!-- naar output scherm -->
+         function getmessage(lastid) {
             var xhr = new XMLHttpRequest();
-            var id = 677;
+            var id = lastid;
             var username = document.chatareas.username.value;
             var mykey = "voxpopuli";
             var time = new Date();
@@ -58,12 +73,34 @@
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-                          document.chatareas.outputtext.value += username + " " + 
-                          localtime + " " +  xhr.responseText;
-            }}
+            document.chatareas.outputtext.value += " " +
+            username + " " + 
+            localtime + " " +  
+            xhr.responseText}}
             };
             xhr.send();
-         }  
+            }  
+            
+          <!-- Ontvang input van server (laatste bericht van de ander) -->
+          <!-- naar output scherm WORK IN PROGRESS -->
+          function getnextmessage() {
+            var xhr = new XMLHttpRequest();
+            var id = 1232;
+            var username = document.chatareas.username.value;
+            var mykey = "voxpopuli";
+            var time = new Date();
+            var localtime = time.toLocaleTimeString();
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
+            xhr.open('GET', url , true);
+            xhr.responseType = 'text';
+            xhr.onload = function () {
+            if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+            document.chatareas.outputtext.value += 
+            xhr.responseText}}
+            };
+            xhr.send();
+            }  
                
         </script>     
     </head>
@@ -82,7 +119,7 @@
             
              <!-- Chatbox zelf -->
             <textarea name="outputtext" cols="60" rows="10">
-    Welcome to the Vox Populi chatbox!
+            Welcome to the Vox Populi chatbox!
             </textarea> 
             <br> 
             <br>
@@ -98,13 +135,13 @@
             <br>
             <!-- chat bericht user tekstvak -->
             <textarea name= "inputtext" cols="50" rows="3">
-    Type your message for the world!
+            Type your message here!
             </textarea>
             
             <!-- Verstuur knop -->
             <input name="sendmsg" type="button" onClick="addselftext();" id="sendmsg" value="Just post for yourself" />
             <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="Send to the world" />
-            <input name="getmsg" type="button" onClick="getmessage();" id="getmsg" value="Get text" />
+            <input name="getmsg" type="button" onClick="getnextmessage();" id="getmsg" value="Get last text" />
         </form>
     </div>
          
