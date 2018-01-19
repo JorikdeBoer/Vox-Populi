@@ -15,15 +15,15 @@
         var recentid = 2282;
             
          <!-- stuur input enkel naar eigen outputscherm -->    
-        function addselftext() {
+         function addselftext() {
             var newtext = "  " +
             document.chatareas.username.value + " " +
-            "To Self" + " " +
+            "To Self:" + " " +
             document.chatareas.inputtext.value;
             document.chatareas.outputtext.value +=newtext;}
             
          <!-- stuur input naar server -->
-         function submitmessage(){
+         function submitmessage() {
             var xhr = new XMLHttpRequest();  
             var username = document.chatareas.username.value;
             var value = document.chatareas.username.value + ": " + document.chatareas.inputtext.value;
@@ -31,9 +31,9 @@
             xhr.open('POST', url , false); 
             // get message back from server with id number   
             xhr.send();
-            document.chatareas.outputtext.value += "    " +    
-            "ID:" + " " + 
-            +  xhr.response + " ";       
+            //document.chatareas.outputtext.value += "    " +    
+            //"ID:" + " " + 
+            //+  xhr.response + " ";       
             getmessage(xhr.response);
             }   
                           
@@ -52,7 +52,8 @@
                 xhr.response;
             }  
                   
-            function getlastid(){
+        <!-- Ontvang het id nummer van het laatste bericht -->
+        function getlastid() {
             var xhr = new XMLHttpRequest();    
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
             xhr.open('GET', url , false); 
@@ -63,7 +64,8 @@
             return lastid;   
             }
             
-            function getidslenght(){
+        <!-- Ontvang het totaal aantal berichten/idnummers -->
+        function getidslenght() {
             var xhr = new XMLHttpRequest();    
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
             xhr.open('GET', url , false); 
@@ -74,7 +76,8 @@
             return length;   
             }
             
-            function getidsarray(){
+        <!-- Ontvang de array met alle idnummers -->
+        function getidsarray() {
             var xhr = new XMLHttpRequest();    
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
             xhr.open('GET', url , false); 
@@ -84,9 +87,8 @@
             return array;   
             }
             
-          <!-- Ontvang input van server (laatste bericht van de ander) -->
-          <!-- naar output scherm WORK IN PROGRESS -->    
-            function getlastmessage() {
+         <!-- Ontvang het laatste bericht in de chat opnieuw -->   
+         function getlastmessage() {
             var xhr = new XMLHttpRequest();     
             var id = getlastid();
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
@@ -100,19 +102,18 @@
             xhr.send();
             }  
             
+          <!-- Ontvang alle berichten vanaf id nummer 2282 voor deze chat --> 
+          <!-- voor zover de berichten nog niet op het scherm staan -->
             function refreshchat() {
             // Array length
             var highestid =  getlastid();
             var lengthids = getidslenght();
-            var idarray = getidsarray();
-            alert(highestid);
-            alert(recentid);    
-            for(i = 0; i < lengthids ; i++) { 
+            var idarray = getidsarray(); 
+            for(i = 0; i <= lengthids ; i++) { 
                 if(idarray[i] > recentid) {
                     getmessage(idarray[i]);    
                 }};
             recentid = highestid; 
-            alert(getidslenght());
             }
             
         </script>     
@@ -123,7 +124,7 @@
         <div id="menu">
             
             <!-- Naam en motto app -->
-            <p class="welcome"> <b> Vox Populi: the app for the people! </b></p>
+            <p class="welcome"> <b> Vox Populi: your chat-tsunami in the clouds </b></p>
             <div style="clear:both"></div>
         </div>
             
