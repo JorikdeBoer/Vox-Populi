@@ -9,80 +9,112 @@
 	    <meta charset="utf-8">
           
         <script> 
+         
+        <!-- globals -->       
+        var mykey = "voxpopuli"   
+        var recentid = 2282;
             
          <!-- stuur input enkel naar eigen outputscherm -->    
         function addselftext() {
-            var time = new Date();
-            var localtime = time.toLocaleTimeString();
             var newtext = "  " +
             document.chatareas.username.value + " " +
             "To Self" + " " +
-            localtime + " " + 
             document.chatareas.inputtext.value;
             document.chatareas.outputtext.value +=newtext;}
             
          <!-- stuur input naar server -->
          function submitmessage(){
-            var username = document.chatareas.username.value;
-            var mykey = "voxpopuli";
-            var value = document.chatareas.inputtext.value;
             var xhr = new XMLHttpRequest();  
+            var username = document.chatareas.username.value;
+            var value = document.chatareas.username.value + ": " + document.chatareas.inputtext.value;
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=write&mykey='+mykey+'&value='+value;
-            xhr.open('POST', url , true); 
+            xhr.open('POST', url , false); 
             // get message back from server with id number   
-            xhr.onload = function () {
-            if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200) { 
-                document.chatareas.outputtext.value += "    " +    
-                "ID:" + " " + 
-                +  xhr.response + " ";       
-                getmessage(xhr.response);}}};
             xhr.send();
+            document.chatareas.outputtext.value += "    " +    
+            "ID:" + " " + 
+            +  xhr.response + " ";       
+            getmessage(xhr.response);
             }   
                           
          <!-- Ontvang input van server (eigen bericht en id) --> 
          <!-- & Stuur input server naar output scherm -->
          function getmessage(id) {
-            var xhr = new XMLHttpRequest();
-            var id = lastid;
-            var username = document.chatareas.username.value;
-            var mykey = "voxpopuli";
-            var time = new Date();
-            var localtime = time.toLocaleTimeString();
+            var xhr = new XMLHttpRequest();  
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
-            xhr.open('GET', url , true); 
-            xhr.responseType = 'text';
-            xhr.onload = function () {
-            if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200) {
-                document.chatareas.outputtext.value += " " +
-                username + " " + 
-                localtime + " " +  
-                xhr.responseText}}};
-            xhr.send();
+            xhr.open('GET', url , false); 
+            xhr.send(); 
+            //xhr.responseType = 'text';
+            //xhr.onload = function () {
+            //if (xhr.readyState === xhr.DONE) {
+            //if (xhr.status === 200) {
+                document.chatareas.outputtext.value += "    " +
+                xhr.response;
             }  
+                  
+            function getlastid(){
+            var xhr = new XMLHttpRequest();    
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
+            xhr.open('GET', url , false); 
+            xhr.send();    
+            var string = xhr.response;
+            var array = string.split(",");  
+            var lastid = array[array.length-1];   
+            return lastid;   
+            }
+            
+            function getidslenght(){
+            var xhr = new XMLHttpRequest();    
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
+            xhr.open('GET', url , false); 
+            xhr.send();    
+            var string = xhr.response;
+            var array = string.split(",");  
+            var length= array.length-1;   
+            return length;   
+            }
+            
+            function getidsarray(){
+            var xhr = new XMLHttpRequest();    
+            var url = 'https://www.codegorilla.nl/read_write/api.php?action=list&mykey='+mykey; 
+            xhr.open('GET', url , false); 
+            xhr.send();    
+            var string = xhr.response;
+            var array = string.split(",");  
+            return array;   
+            }
             
           <!-- Ontvang input van server (laatste bericht van de ander) -->
-          <!-- naar output scherm WORK IN PROGRESS -->
-          function getnextmessage() {
-            var xhr = new XMLHttpRequest();
-            var id = 1232;
-            var username = document.chatareas.username.value;
-            var mykey = "voxpopuli";
-            var time = new Date();
-            var localtime = time.toLocaleTimeString();
+          <!-- naar output scherm WORK IN PROGRESS -->    
+            function getlastmessage() {
+            var xhr = new XMLHttpRequest();     
+            var id = getlastid();
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
             xhr.open('GET', url , true);
             xhr.responseType = 'text';
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-            document.chatareas.outputtext.value += " " +
-            xhr.responseText}}
-            };
+            document.chatareas.outputtext.value += "    " + "Last message send: " +
+            xhr.responseText}}};
             xhr.send();
             }  
-               
+            
+            function refreshchat() {
+            // Array length
+            var highestid =  getlastid();
+            var lengthids = getidslenght();
+            var idarray = getidsarray();
+            alert(highestid);
+            alert(recentid);    
+            for(i = 0; i < lengthids ; i++) { 
+                if(idarray[i] > recentid) {
+                    getmessage(idarray[i]);    
+                }};
+            recentid = highestid; 
+            alert(getidslenght());
+            }
+            
         </script>     
     </head>
     
@@ -104,10 +136,9 @@
             </textarea> 
             <br> 
             <br>
-            
-            <!-- Tekst vakken gebruiker -->
+    
             <!-- Username tekstvak -->
-                Username:
+            Username:
             <input type="text" name="username" id="username">    
             <br>
             <br>
@@ -120,7 +151,9 @@
             <!-- Verstuur knoppen -->
             <input name="sendmsg" type="button" onClick="addselftext();" id="sendmsg" value="Just post for yourself" />
             <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="Send to the world" />
-            <input name="getmsg" type="button" onClick="getnextmessage();" id="getmsg" value="Get last text" />        
+            <input name="getnewmsg" type="button" onClick="refreshchat();" id="getnewmsg" value="Refresh chat" />      
+            <input name="getlastmsg" type="button" onClick="getlastmessage();" id="getlastmsg" value="Get last text" />        
+                
             </form>
     </div>
     
