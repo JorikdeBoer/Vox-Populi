@@ -2,25 +2,15 @@
 <html>
     <head>
         
-        <!-- Titel -->
         <title>	Vox Populi </title>
+        
         <!-- Link naar css style bestand -->
         <link type="text/css" rel="stylesheet" href="Chat application Vox Populi.css" />
 	    <meta charset="utf-8">
           
         <script> 
-        <!-- belangrijke functies --> 
-                             
-        <!-- Stuur input text naar output scherm -->        
-        function addtext() {
-            var time = new Date();
-            var localtime = time.toLocaleTimeString();
-            var newtext = "  " +
-            document.chatareas.username.value + " " + 
-            localtime + " " + 
-            document.chatareas.inputtext.value;
-            document.chatareas.outputtext.value +=newtext;}
             
+         <!-- stuur input enkel naar eigen outputscherm -->    
         function addselftext() {
             var time = new Date();
             var localtime = time.toLocaleTimeString();
@@ -38,28 +28,21 @@
             var value = document.chatareas.inputtext.value;
             var xhr = new XMLHttpRequest();  
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=write&mykey='+mykey+'&value='+value;
-            xhr.open('POST', url , true);
-            //addtext();
+            xhr.open('POST', url , true); 
+            // get message back from server with id number   
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) { 
-            document.chatareas.outputtext.value += "    " +    
-            "ID:" + " " + 
-            +  xhr.response + " ";   
-            // get message back from server with id number    
-            updatelastid(xhr.response);
-            }}    
-            };
+                document.chatareas.outputtext.value += "    " +    
+                "ID:" + " " + 
+                +  xhr.response + " ";       
+                getmessage(xhr.response);}}};
             xhr.send();
             }   
-                     
-         function updatelastid(id){
-            getmessage(id);
-            }   
-            
-         <!-- Ontvang input van server & Stuur input server -->
-         <!-- naar output scherm -->
-         function getmessage(lastid) {
+                          
+         <!-- Ontvang input van server (eigen bericht en id) --> 
+         <!-- & Stuur input server naar output scherm -->
+         function getmessage(id) {
             var xhr = new XMLHttpRequest();
             var id = lastid;
             var username = document.chatareas.username.value;
@@ -67,17 +50,15 @@
             var time = new Date();
             var localtime = time.toLocaleTimeString();
             var url = 'https://www.codegorilla.nl/read_write/api.php?action=read&mykey='+mykey+'&id='+id;
-            xhr.open('GET', url , true);
-             
+            xhr.open('GET', url , true); 
             xhr.responseType = 'text';
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-            document.chatareas.outputtext.value += " " +
-            username + " " + 
-            localtime + " " +  
-            xhr.responseText}}
-            };
+                document.chatareas.outputtext.value += " " +
+                username + " " + 
+                localtime + " " +  
+                xhr.responseText}}};
             xhr.send();
             }  
             
@@ -96,7 +77,7 @@
             xhr.onload = function () {
             if (xhr.readyState === xhr.DONE) {
             if (xhr.status === 200) {
-            document.chatareas.outputtext.value += 
+            document.chatareas.outputtext.value += " " +
             xhr.responseText}}
             };
             xhr.send();
@@ -105,17 +86,17 @@
         </script>     
     </head>
     
-    <!-- Layout stuctuur -->
-    <!-- Omlijning chatbox -->
+    <!-- Layout chatbox -->
     <div id="border">
         <div id="menu">
+            
             <!-- Naam en motto app -->
             <p class="welcome"> <b> Vox Populi: the app for the people! </b></p>
             <div style="clear:both"></div>
         </div>
-        
-        <!-- Knoppen voor de Chatbox -->
-        <form name="chatareas" action="">
+            
+            <!-- Knoppen voor de Chatbox -->
+            <form name="chatareas" action="">
             
              <!-- Chatbox zelf -->
             <textarea name="outputtext" cols="60" rows="10">
@@ -124,28 +105,26 @@
             <br> 
             <br>
             
-            <!-- Zorg dat output automatisch doorscrolt WORK IN PROGRESS -->
-            <!-- opmaak locatie buttons WORK IN PROGRESS -->
-            
             <!-- Tekst vakken gebruiker -->
             <!-- Username tekstvak -->
                 Username:
             <input type="text" name="username" id="username">    
             <br>
             <br>
-            <!-- chat bericht user tekstvak -->
+                
+            <!-- chat bericht tekstvak -->
             <textarea name= "inputtext" cols="50" rows="3">
             Type your message here!
             </textarea>
             
-            <!-- Verstuur knop -->
+            <!-- Verstuur knoppen -->
             <input name="sendmsg" type="button" onClick="addselftext();" id="sendmsg" value="Just post for yourself" />
             <input name="submitmsg" type="button" onClick="submitmessage();" id="submitmsg" value="Send to the world" />
-            <input name="getmsg" type="button" onClick="getnextmessage();" id="getmsg" value="Get last text" />
-        </form>
+            <input name="getmsg" type="button" onClick="getnextmessage();" id="getmsg" value="Get last text" />        
+            </form>
     </div>
-         
-   	<body>      
+    
+   	<body background="achtergrond.jpg">      
     <script>
     </script>   
     </body>

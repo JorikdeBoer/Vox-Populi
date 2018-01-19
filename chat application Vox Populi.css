@@ -3,15 +3,8 @@
 /* Tekst font, kleur, locatie & omlijning */
 body {
     font:18px arial;
-    background-color: rgb(193,193,193);
     text-align:center;
     padding:35px; }
-
-a {
-    color: rgb(255, 255, 255);
-    text-decoration:none; }
-  
-    a:hover { text-decoration:underline; }
   
 input[type=button] {
    	background-color:rgb(255, 255, 255);
@@ -45,6 +38,6 @@ scroll bar if too much content */
 #menu { padding:12.5px 25px 12.5px 25px; }
   
 /* Locatie welkomtekst */
-.welcome { float:left; }
+.welcome { float:center; }
   
 .msgln { margin:0 0 2px 0; }
